@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplikacja Pizza</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<h1>Przygotuj własną pizze</h1>
+<img th:src="@{/images/pizza.png}">
+
+<form method="POST" th:object="${design}">
+    <div class="grid">
+        <div class="ingredient-group" id="dough">
+            <h3>Wybierz rodzaj ciasta</h3>
+            <div th:each="ingredient : ${dough}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="protein">
+            <h3>Wybierz rodzaj mięsa</h3>
+            <div th:each="ingredient : ${protein}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="veggies">
+            <h3>Wybierz warzywa</h3>
+            <div th:each="ingredient : ${veggies}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="sauce">
+            <h3>Wybierz sos</h3>
+            <div th:each="ingredient : ${sauce}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h3>Nadaj nazwę przygotowywanej pizzy:</h3>
+        <input type="text" th:field="*{name}"/>
+        <br/>
+
+        <button>Wyślij swoje zamówienie</button>
+    </div>
+</form>
+</body>
+</html>
