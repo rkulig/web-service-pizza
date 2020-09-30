@@ -11,6 +11,11 @@
 <img th:src="@{/images/pizza.png}">
 
 <form method="POST" th:object="${design}">
+
+      <span class="validationError"
+            th:if="${#fields.hasErrors('ingredients')}"
+            th:errors="*{ingredients}">Ingredient Error</span>
+
     <div class="grid">
         <div class="ingredient-group" id="dough">
             <h3>Wybierz rodzaj ciasta</h3>
@@ -48,6 +53,9 @@
     <div>
         <h3>Nadaj nazwę przygotowywanej pizzy:</h3>
         <input type="text" th:field="*{name}"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('name')}"
+              th:errors="*{name}">Nazwa musi mieć przynajmniej trzy znaki</span>
         <br/>
 
         <button>Wyślij swoje zamówienie</button>

@@ -12,7 +12,12 @@
     <h1>Zamów przygotowaną pizzę!</h1>
 
     <img th:src="@{/images/pizza.png}"/>
+
+    <h3>Twoja pizza w tym zamówieniu:</h3>
     <a th:href="@{/design}" id="another">Przygotuj kolejną pizzę</a><br/>
+    <ul>
+        <li th:each="pizza : ${order.pizzas}"><span th:text="${pizza.name}">nazwa pizzy</span></li>
+    </ul>
 
     <div th:if = "${#fields.hasErrors()}">
         <span class="validationError">
@@ -23,29 +28,53 @@
     <h3> Adres dostarczenia pizzy:</h3>
     <label for="name">Imię i nazwisko: </label>
     <input type="text" th:field="*{name}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}">Nie podano imienia i nazwiska</span>
     <br/>
 
     <label for="street">Ulica: </label>
     <input type="text" th:field="*{street}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('street')}"
+          th:errors="*{street}">Nie podano ulicy</span>
     <br/>
 
     <label for="city">Miejscowość: </label>
     <input type="text" th:field="*{city}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('city')}"
+          th:errors="*{city}">Nie podano nazwy miejscowości</span>
     <br/>
 
     <label for="zip">Kod pocztowy: </label>
     <input type="text" th:field="*{zip}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('zip')}"
+          th:errors="*{zip}">Nie podano kodu pocztowego</span>
     <br/>
 
     <h3>Sposób płatności: </h3>
     <label for="ccNumber">Numer karty kredytowej:</label>
     <input type="text" th:field ="*{ccNumber}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('ccNumber')}"
+          th:errors="*{ccNumber}">Błąd numeru karty kredytowej</span>
+    <br/>
 
     <label for="ccExpiration">Data ważności:</label>
     <input type="text" th:field ="*{ccExpiration}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('ccExpiration')}"
+          th:errors="*{ccExpiration}">Nie podano daty ważności karty</span>
+    <br/>
 
     <label for="ccCVV">Kod CVV:</label>
     <input type="text" th:field ="*{ccCVV}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('ccCVV')}"
+          th:errors="*{ccCVV}">Nie podano kodu ccCVV</span>
+    <br/>
 
     <input type="submit" value="Złóż zamówienie"/>
 </form>
