@@ -13,6 +13,10 @@
 
     <img th:src="@{/images/pizza.png}"/>
 
+    <form method="POST" th:action="@{/logout}">
+        <input type="submit" value="Wyloguj się"/>
+    </form>
+
     <h3>Twoja pizza w tym zamówieniu:</h3>
     <a th:href="@{/design}" id="another">Przygotuj kolejną pizzę</a><br/>
     <ul>

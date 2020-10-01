@@ -10,6 +10,10 @@
 <h1>Przygotuj własną pizze</h1>
 <img th:src="@{/images/pizza.png}">
 
+<form method="POST" th:action="@{/logout}">
+    <input type="submit" value="Wyloguj się"/>
+</form>
+
 <form method="POST" th:object="${design}">
 
       <span class="validationError"
