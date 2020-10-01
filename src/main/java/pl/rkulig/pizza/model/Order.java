@@ -43,6 +43,9 @@ public class Order implements Serializable {
     @ManyToMany(targetEntity = Pizza.class)
     private List<Pizza> pizzas = new ArrayList<>();
 
+    @ManyToOne
+    private User user;
+
     public void addDesign(Pizza design){
         this.pizzas.add(design);
     }
