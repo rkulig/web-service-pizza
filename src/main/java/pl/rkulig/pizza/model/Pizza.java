@@ -21,7 +21,7 @@ public class Pizza {
 
     @Size(min=3 , message = "Nazwa musi się składać przynamniej z trzech znaków")
     @NotNull
-    private String name;
+    private String pizzaName;
 
     @ManyToMany(targetEntity = Ingredient.class)
     @Size(min = 1 , message = "Musisz wybrać minimum jeden składnik")

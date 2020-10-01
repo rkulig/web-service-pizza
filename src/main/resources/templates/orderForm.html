@@ -16,13 +16,11 @@
     <h3>Twoja pizza w tym zamówieniu:</h3>
     <a th:href="@{/design}" id="another">Przygotuj kolejną pizzę</a><br/>
     <ul>
-        <li th:each="pizza : ${order.pizzas}"><span th:text="${pizza.name}">nazwa pizzy</span></li>
+        <li th:each="pizza : ${order.pizzas}"><span th:text="${pizza.pizzaName}">nazwa pizzy</span></li>
     </ul>
 
     <div th:if = "${#fields.hasErrors()}">
-        <span class="validationError">
-            Usuń wymienione problemy i spróbuj ponownie
-        </span>
+        <span class="validationError">Usuń wymienione problemy i spróbuj ponownie</span>
     </div>
 
     <h3> Adres dostarczenia pizzy:</h3>
