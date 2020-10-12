@@ -3,67 +3,123 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>PIZZA</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+
 </head>
 <body>
-<h1>Przygotuj własną pizze</h1>
-<img th:src="@{/images/pizza.png}">
 
-<form method="POST" th:action="@{/logout}">
-    <input type="submit" value="Wyloguj się"/>
-</form>
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div class="container">
 
-<form method="POST" th:object="${design}">
+        <a href="http://localhost:8081/" class="navbar-brand"><h3>pizza.pl</h3></a>
 
-      <span class="validationError"
-            th:if="${#fields.hasErrors('ingredients')}"
-            th:errors="*{ingredients}">Ingredient Error</span>
+        <form class="navbar-brand" method="POST" th:action="@{/logout}" id="logoutForm">
+            <input type="submit" value="Wyloguj"/>
+        </form>
 
-    <div class="grid">
-        <div class="ingredient-group" id="doughs">
-            <h3>Wybierz rodzaj ciasta</h3>
-            <div th:each="ingredient : ${dough}">
-                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
-                <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
-            </div>
+
+    </div>
+</nav>
+<div class="container mt-5 mb-1 ">
+    <div class="row">
+        <div class="card col-7 pl-5 pt-4">
+            <form method="POST" th:object="${design}" th:action="@{/design}" id="tacoForm">
+                <div class="row">
+
+                    <div class="form-group  ">
+
+                        <h4>Przygotuj własną pizze</h4>
+                        (bazą pizzy jest ciasto ciasto, sos pomidorowy, ser żółty)
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('ingredients')}"
+                              th:errors="*{ingredients}">Ingredient Error</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 pt-3 pb-3">
+                        <div class="form-group  ">
+                            <div class="ingredient-group" id="doughs">
+                                <h6>Wybierz rodzaj ciasta</h6>
+                                <div th:each="ingredient : ${dough}">
+                                    <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                                    <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group  ">
+                            <div class="ingredient-group" id="proteins">
+                                <h6>Wybierz rodzaj mięsa</h6>
+                                <div th:each="ingredient : ${protein}">
+                                    <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                                    <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="ingredient-group" id="sauces">
+                                <h6>Wybierz sos</h6>
+                                <div th:each="ingredient : ${sauce}">
+                                    <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                                    <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 pt-3">
+                        <div class="form-group  ">
+                            <div class="ingredient-group" id="veggies">
+                                <h6>Wybierz warzywa</h6>
+                                <div th:each="ingredient : ${veggies}">
+                                    <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+                                    <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group  ">
+
+                        <h6>Nadaj nazwę przygotowywanej pizzy:</h6>
+                        <input type="text" th:field="*{pizzaName}"/>
+                        <span class="validationError"
+                              th:if="${#fields.hasErrors('pizzaName')}"
+                              th:errors="*{pizzaName}">Nazwa musi mieć przynajmniej trzy znaki</span>
+                        <br/>
+                        <button class="btn btn-outline-info pt-2">&nbsp;Wyślij swoje zamówienie&nbsp;</button>
+
+                    </div>
+                </div>
+            </form>
         </div>
 
-        <div class="ingredient-group" id="proteins">
-            <h3>Wybierz rodzaj mięsa</h3>
-            <div th:each="ingredient : ${protein}">
-                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
-                <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
-            </div>
-        </div>
-
-        <div class="ingredient-group" id="veggies">
-            <h3>Wybierz warzywa</h3>
-            <div th:each="ingredient : ${veggies}">
-                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
-                <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
-            </div>
-        </div>
-
-        <div class="ingredient-group" id="sauces">
-            <h3>Wybierz sos</h3>
-            <div th:each="ingredient : ${sauce}">
-                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
-                <span th:text="${ingredient.name}">SKŁADNIK</span><br/>
-            </div>
+        <div class="col-5 ">
+            <img th:src="@{/images/pizzaman.png}" class="img-fluid"/>
         </div>
     </div>
+</div>
 
-    <div>
-        <h3>Nadaj nazwę przygotowywanej pizzy:</h3>
-        <input type="text" th:field="*{pizzaName}"/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('pizzaName')}"
-              th:errors="*{pizzaName}">Nazwa musi mieć przynajmniej trzy znaki</span>
-        <br/>
+<footer class="footer">
+    <div class="container text-right">
 
-        <button>Wyślij swoje zamówienie</button>
+        <p class="navbar-text">pizza.pl - developed by <a href="http://localhost:8082/">rkulig.pl</a>
+
     </div>
-</form>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
 </body>
 </html>

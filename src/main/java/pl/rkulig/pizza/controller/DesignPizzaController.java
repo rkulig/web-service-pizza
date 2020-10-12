@@ -1,5 +1,6 @@
 package pl.rkulig.pizza.controller;
 
+import java.security.Principal;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +10,16 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.rkulig.pizza.data.IngredientRepository;
 import pl.rkulig.pizza.data.PizzaRepository;
+import pl.rkulig.pizza.data.UserRepository;
 import pl.rkulig.pizza.model.Ingredient;
 import pl.rkulig.pizza.model.Ingredient.Type;
 import pl.rkulig.pizza.model.Order;
 import pl.rkulig.pizza.model.Pizza;
+import pl.rkulig.pizza.model.User;
 
-import javax.persistence.criteria.CriteriaBuilder;
+
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("order")
+@Slf4j
 public class DesignPizzaController {
 
 
@@ -32,10 +35,13 @@ public class DesignPizzaController {
 
     private PizzaRepository pizzaRepo;
 
+    private UserRepository userRepo;
+
     @Autowired
-    public DesignPizzaController(IngredientRepository ingredientRepo, PizzaRepository pizzaRepo) {
+    public DesignPizzaController(IngredientRepository ingredientRepo, PizzaRepository pizzaRepo, UserRepository userRepo) {
         this.ingredientRepo = ingredientRepo;
         this.pizzaRepo = pizzaRepo;
+        this.userRepo=userRepo;
     }
 
     @ModelAttribute(name = "order")
@@ -68,7 +74,8 @@ public class DesignPizzaController {
 //        }
 //    }
     @GetMapping
-    public String showDesignform(Model model) {
+    public String showDesignform(Model model, Principal principal) {
+        log.info("   --- Designing pizza");
        List<Ingredient> ingredients = new ArrayList<>();
        ingredientRepo.findAll().forEach(i->ingredients.add(i));
 
@@ -76,11 +83,16 @@ public class DesignPizzaController {
         for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
+
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username);
+        model.addAttribute("user", user);
         return "design";
     }
 
     @PostMapping
     public String processDesign(@Valid Pizza pizza, Errors errors, @ModelAttribute Order order) {
+        log.info("   --- Saving pizza");
         if (errors.hasErrors()) {
             return "design";
         }

@@ -5,10 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import pl.rkulig.pizza.data.OrderRepository;
 import pl.rkulig.pizza.model.Order;
@@ -16,7 +13,7 @@ import pl.rkulig.pizza.model.User;
 
 import javax.validation.Valid;
 
-@Slf4j
+
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
@@ -29,7 +26,22 @@ public class OrderController {
     }
 
     @GetMapping("/current")
-    public String orderForm() {
+    public String orderForm(@AuthenticationPrincipal User user,
+                            @ModelAttribute Order order) {
+
+        if (order.getName() == null) {
+            order.setName(user.getFullname());
+        }
+        if (order.getStreet() == null) {
+            order.setStreet(user.getStreet());
+        }
+        if (order.getCity() == null) {
+            order.setCity(user.getCity());
+        }
+        if (order.getZip() == null) {
+            order.setZip(user.getZip());
+        }
+
         return "orderForm";
     }
 
